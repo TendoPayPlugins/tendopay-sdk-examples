@@ -1,0 +1,21 @@
+{
+  "name": "tendopay-javascript-sample",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TendoPay JavaScript Sample App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "watch": "nodemon server.js --watch ../"
+  },
+  "author": "Jerome Brunel",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "tendopay": "^0.9.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
