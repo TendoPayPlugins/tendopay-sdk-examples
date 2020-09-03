@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>TendoPay JavaScript Sample Cancel App</title>
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway:400,300,600">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+
+    <style type="text/css">
+      .container {
+        padding: 30px;
+        max-width: 540px;
+        box-sizing: border-box;
+      }
+
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+
+      .align-center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>TendoPay Sample App</h2>
+      <h4>Cancel Transaction</h4>
+      <form method="POST" action="/cancel">
+        <table class="u-full-width u-max-full-width">
+          <thead>
+            <th>Transaction #</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input style="border: 0px; margin-bottom: 0;" name="transaction" class="u-full-width u-max-full-width" type="text" value="<%= id %>" id="transaction"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="align-center">
+          <button type="submit" class="u-full-width">
+            Cancel
+          </button>
+          <img src="https://s3.ca-central-1.amazonaws.com/candydigital/images/tendopay/tp-icon-32x32.png">
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    const elem = document.getElementById('transaction')
+    const transactionId = window.location.pathname.split('/')[2]
+    if (elem && transactionId) {
+      elem.setAttribute('value', transactionId)
+    }
+  </script>
+</html>
