@@ -13,7 +13,7 @@
   "dependencies": {
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "tendopay": "^0.9.3"
+    "tendopay": "^0.9.4"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

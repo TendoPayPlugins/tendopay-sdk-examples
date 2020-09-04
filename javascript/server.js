@@ -3,6 +3,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const express = require('express');
 const tendopay = require('tendopay');
+const { statusSuccess } = require('../lib/constants/values');
 
 const TendoPayClient = tendopay.Client;
 const tendoPayClient = new TendoPayClient(true);
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/cart', express.static('cart.html'));
+app.use('/transaction/:id', express.static('cancel.html'));
 
 const merchantOrderId = 'TEST-OID-123324567890';
 
@@ -53,6 +55,22 @@ app.post('/purchase', async (req, res, next) => {
     tendoPayClient.payment = tendoPayPayment;
 
     res.redirect(await tendoPayClient.getTendoPayURL());
+  } catch (err) {
+    console.error(err)
+    res.status(err.statusCode)
+    res.json({ error: err.data })
+  }
+});
+
+app.post('/cancel', async (req, res, next) => {
+  try {
+    const transactionNumber = req.body.transaction
+    const response = await tendoPayClient.cancelTransaction({ transactionNumber });
+
+    res.json({
+      ...response,
+      status: statusSuccess
+    });
   } catch (err) {
     console.error(err)
     res.status(err.statusCode)
