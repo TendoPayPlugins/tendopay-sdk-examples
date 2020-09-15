@@ -170,6 +170,36 @@ case tendopay.Constants.values.PURCHASE_TRANSACTION_SUCCESS:
 res.status(200).json();
 ```
 
+### 4. Request a cancellation of the purchase
+
+If a purchase is eligible (see terms & conditions), you can use the Javascript SDK to request its cancellation.
+
+`cancelTransaction(...)` is an async method from the TendoPayClient, and will  request the cancellation from the TendoPay platform provided a transaction ID.
+
+- Example Implementation
+
+```javascript
+const transactionNumber = 'TEST-OID-123324567890';
+const {status, message} = await tendoPayClient.  async cancelTransaction({ transactionNumber });
+
+console.log({status, message});
+// Search Merchant side transaction by merchantOrderId
+// Check if the transaction is already processed
+// The process should stop here if this transaction is already done.
+// return 200 if this is a duplicated notification
+
+switch (status) {
+  case 200:
+  // The transaction has been successfully cancelled
+  // Do merchant job here
+  break;
+  default:
+  // There was an issue cancelling the transaction
+  // Do merchant job here
+  break;
+}
+```
+
 ## FAQ
 
 I'm having issues using the SDK, where can I get support ?
@@ -182,4 +212,4 @@ Can I use this SDK on the client side ?
 - The TendoPay SDK should ONLY be used on the server side. Revealing your merchant credentials to the public might endanger your merchant account by allowing people to hack and create fake purchases.
 
 I'm a bit lost, can I get an example ?
-- Head to our [Example repository](https://github.com/TendoPayPlugins/tendopay-sdk-examples/tree/master/javascript) and download the server sample we created using [Expressjs](https://expressjs.com/).
+- Head to our [Example repository](https://github.com/TendoPayPlugins/tendopay-sdk-examples) and download the server sample we created using [Expressjs](https://expressjs.com/).
