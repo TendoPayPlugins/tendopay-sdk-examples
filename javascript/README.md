@@ -180,13 +180,9 @@ If a purchase is eligible (see terms & conditions), you can use the Javascript S
 
 ```javascript
 const transactionNumber = 'TEST-OID-123324567890';
-const {status, message} = await tendoPayClient.  async cancelTransaction({ transactionNumber });
+const {status, message} = await tendoPayClient.cancelTransaction({ transactionNumber });
 
 console.log({status, message});
-// Search Merchant side transaction by merchantOrderId
-// Check if the transaction is already processed
-// The process should stop here if this transaction is already done.
-// return 200 if this is a duplicated notification
 
 switch (status) {
   case 200:
