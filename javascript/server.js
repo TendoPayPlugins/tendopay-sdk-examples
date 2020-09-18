@@ -3,7 +3,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const express = require('express');
 const tendopay = require('tendopay');
-const { statusSuccess } = require('../lib/constants/values');
 
 const TendoPayClient = tendopay.Client;
 const tendoPayClient = new TendoPayClient(true);
@@ -69,7 +68,7 @@ app.post('/cancel', async (req, res, next) => {
 
     res.json({
       ...response,
-      status: statusSuccess
+      status: 'success'
     });
   } catch (err) {
     console.error(err)
