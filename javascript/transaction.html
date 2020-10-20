@@ -4,11 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>TendoPay JavaScript Sample Cart App</title>
+    <title>TendoPay JavaScript Sample App</title>
 
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway:400,300,600">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+
+    <link rel="icon" type="image/png" href="https://s3.ca-central-1.amazonaws.com/candydigital/images/tendopay/tp-icon-32x32.png">
 
     <style type="text/css">
       .container {
@@ -30,40 +32,32 @@
   <body>
     <div class="container">
       <h2>TendoPay Sample App</h2>
-      <h4>Cart</h4>
-      <form method="POST" action="/purchase">
-        <input type="hidden" name="price" value="1000">
+      <h4>Cancel Transaction</h4>
+      <form method="POST" action="/cancel">
         <table class="u-full-width u-max-full-width">
           <thead>
-            <tr>
-              <th>Product</th>
-              <th>Price</th>
-            </tr>
+            <th>Transaction #</th>
           </thead>
-          <tfoot>
-            <tr>
-              <th>Total</th>
-              <th>JS 1000</th>
-            </tr>
-          </tfoot>
           <tbody>
             <tr>
-              <td>1x Product #1</td>
-              <td>JS 800</td>
-            </tr>
-            <tr>
-              <td>1x Product #2</td>
-              <td>JS 200</td>
+              <td><input style="border: 0px; margin-bottom: 0;" name="transaction" class="u-full-width u-max-full-width" type="text" value="<%= id %>" id="transaction"></td>
             </tr>
           </tbody>
         </table>
         <div class="align-center">
           <button type="submit" class="u-full-width">
-            Pay with TendoPay
+            Cancel
           </button>
           <img src="https://s3.ca-central-1.amazonaws.com/candydigital/images/tendopay/tp-icon-32x32.png">
         </div>
       </form>
     </div>
   </body>
+  <script>
+    const elem = document.getElementById('transaction')
+    const transactionId = window.location.pathname.split('/')[2]
+    if (elem && transactionId) {
+      elem.setAttribute('value', transactionId)
+    }
+  </script>
 </html>
