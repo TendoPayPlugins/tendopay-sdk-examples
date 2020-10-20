@@ -12,11 +12,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-  res.redirect('/cart');
+  res.redirect('/checkout');
 });
 
-app.use('/cart', express.static('cart.html'));
-app.use('/transaction/:id', express.static('cancel.html'));
+app.use('/checkout', express.static('checkout.html'));
+app.use('/transaction/:id', express.static('transaction.html'));
 
 const merchantOrderId = 'TEST-OID-12324567890';
 
