@@ -179,7 +179,7 @@ If a purchase is eligible (see terms & conditions), you can use the Javascript S
 - Example Implementation
 
 ```javascript
-const transactionNumber = 'TEST-OID-123324567890';
+const transactionNumber = 'TEST-OID-12324567890';
 const {status, message} = await tendoPayClient.cancelTransaction({ transactionNumber });
 
 console.log({status, message});

@@ -3,7 +3,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const express = require('express');
 const tendopay = require('tendopay');
-const { statusSuccess } = require('../lib/constants/values');
 
 const TendoPayClient = tendopay.Client;
 const tendoPayClient = new TendoPayClient(true);
@@ -19,24 +18,28 @@ app.get('/', (req, res) => {
 app.use('/cart', express.static('cart.html'));
 app.use('/transaction/:id', express.static('cancel.html'));
 
-const merchantOrderId = 'TEST-OID-123324567890';
+const merchantOrderId = 'TEST-OID-12324567890';
 
 app.get('/purchase', async (req, res) => {
-  if (TendoPayClient.isCallbackRequest({request: req})) {
-    const transaction = await tendoPayClient.verifyTransaction({
-      merchantOrderId,
-      verificationRequest: new tendopay.VerifyTransactionRequest({
-        requestParams: req.query
-      })
-    });
-
+  try {
+    if (TendoPayClient.isCallbackRequest({request: req})) {
+      const transactionStatus = await tendoPayClient.verifyTransaction({
+        merchantOrderId,
+        verificationRequest: new tendopay.VerifyTransactionRequest({
+          requestParams: req.query
+        })
+      });
+  
+      res.json({
+        success: transactionStatus,
+        query: req.query
+      });
+    } else {
+      throw new Error('Not a callback request')
+    }
+  } catch (err) {
     res.json({
-      success: transaction.isVerified(),
-      query: req.query
-    });
-  } else {
-    res.json({
-      error: 'Not a callback request'
+      error: err.message
     });
   }
 });
@@ -45,11 +48,20 @@ app.post('/purchase', async (req, res, next) => {
   try {
     const orderAmount = +req.body.price || 0;
     const orderTitle = 'Test Order #1';
+    const { currency, billing_city, billing_address, billing_postal, shipping_city, shipping_address, shipping_postal } = req.body
 
     const tendoPayPayment = new tendopay.Payment({
       merchantOrderId,
-      requestAmount: orderAmount,
-      description: orderTitle
+      amount: orderAmount,
+      currency,
+      description: orderTitle,
+      billingCity: billing_city,
+      billingAddress: billing_address,
+      billingPostcode: billing_postal,
+      shippingCity: shipping_city,
+      shippingAddress: shipping_address,
+      shippingPostcode: shipping_postal,
+      userId: '123',
     });
 
     tendoPayClient.payment = tendoPayPayment;
@@ -69,7 +81,7 @@ app.post('/cancel', async (req, res, next) => {
 
     res.json({
       ...response,
-      status: statusSuccess
+      success: true
     });
   } catch (err) {
     console.error(err)
